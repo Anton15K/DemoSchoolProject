@@ -28,14 +28,14 @@ class RegistrationController(
         try {
             val user = userService.save(userDto)
 
-            val welcomeCookie = Cookie("id", user.id.toString())
-            welcomeCookie.maxAge = 7 * 24 * 60 * 60 // 1 week
-            welcomeCookie.isHttpOnly = true
-            welcomeCookie.path = "/"
-
-
-            // Add the cookie to the response
-            response.addCookie(welcomeCookie)
+//            val welcomeCookie = Cookie("id", user.id.toString())
+//            welcomeCookie.maxAge = 7 * 24 * 60 * 60 // 1 week
+//            welcomeCookie.isHttpOnly = true
+//            welcomeCookie.path = "/"
+//
+//
+//            // Add the cookie to the response
+//            response.addCookie(welcomeCookie)
 
             return "redirect:/home?success"
         } catch (e: Exception) {

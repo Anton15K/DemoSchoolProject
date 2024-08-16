@@ -1,6 +1,7 @@
 package com.example.demo.auth
 
 import com.example.demo.playlist_manager.UserRepository
+import jakarta.servlet.http.Cookie
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider
@@ -14,7 +15,7 @@ import org.springframework.security.web.DefaultSecurityFilterChain
 
 @Configuration
 @EnableWebSecurity
-class SecutiryConfig (
+class SecutiryConfig(
 ) {
 
     @Bean
@@ -28,11 +29,25 @@ class SecutiryConfig (
             }
             .formLogin { formLogin ->
                 formLogin.loginPage("/login")
-                    .defaultSuccessUrl("/home", true)
+                    .successHandler { request, response, authentication ->
+                        val userDetails = authentication?.principal as? CustomUserDetails
+
+                        val userId = userDetails?.user?.id
+
+                        val cookie = Cookie("id", userId.toString())
+                        cookie.maxAge = 7 * 24 * 60 * 60
+                        cookie.isHttpOnly = true
+                        cookie.path = "/"
+
+                        response.addCookie(cookie)
+
+                        response.sendRedirect("/home")
+                    }
                     .permitAll()
             }
             .logout { logout ->
                 logout.logoutUrl("/logout")
+                    .deleteCookies("id")
                     .permitAll()
             }
             .csrf { csrf ->
@@ -51,11 +66,7 @@ class SecutiryConfig (
     fun userDetailsService(): UserDetailsService {
         return CustomUserDetailsService()
     }
-
-    @Bean
-    fun customAuthenticationSuccessHandler(): CustomAuthenticationSuccessHandler {
-        return CustomAuthenticationSuccessHandler()
-    }
+    
 
     @Bean
     fun authenticationProvider(): DaoAuthenticationProvider {

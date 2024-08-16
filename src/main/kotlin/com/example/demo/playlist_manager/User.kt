@@ -64,5 +64,4 @@ class User : Serializable {
             .map { role: Role -> SimpleGrantedAuthority(role.name) }
             .collect(Collectors.toList())
     }
-
 }
