@@ -1,44 +1,44 @@
-package com.example.demo
+package com.example.demo.auth
 
-import com.example.demo.playlist_manager.User
 import com.example.demo.playlist_manager.UserRepository
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
-import org.springframework.security.config.Customizer.withDefaults
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.crypto.password.PasswordEncoder
-import org.springframework.security.provisioning.InMemoryUserDetailsManager
 import org.springframework.security.web.DefaultSecurityFilterChain
 
 
 @Configuration
 @EnableWebSecurity
-class SecutiryConfig {
+class SecutiryConfig (
+) {
 
     @Bean
     fun securityFilterChain(http: HttpSecurity): DefaultSecurityFilterChain {
         http
             .authorizeHttpRequests { authorizeHttpRequests ->
                 authorizeHttpRequests
-                    .requestMatchers("/signup").permitAll()
+                    .requestMatchers("/signup", "/login", "/resources/**", "/logout").permitAll()
                     .requestMatchers("/api/**").hasAnyRole("USER", "ADMIN")
                     .anyRequest().hasAnyRole("USER", "ADMIN")
             }
-            .formLogin {formLogin ->
-                formLogin.loginPage("/custom_login")
+            .formLogin { formLogin ->
+                formLogin.loginPage("/login")
+                    .defaultSuccessUrl("/home", true)
                     .permitAll()
             }
             .logout { logout ->
-                logout.logoutUrl("/custom_logout")
-                    .logoutSuccessUrl("/custom_login?logout")
+                logout.logoutUrl("/logout")
                     .permitAll()
             }
             .csrf { csrf ->
                 csrf.disable()
             }
+            .httpBasic {}
         return http.build()
     }
 
@@ -48,9 +48,20 @@ class SecutiryConfig {
     }
 
     @Bean
-    fun userDetailsService(userRepository: UserRepository): UserDetailsService {
+    fun userDetailsService(): UserDetailsService {
         return CustomUserDetailsService()
     }
 
+    @Bean
+    fun customAuthenticationSuccessHandler(): CustomAuthenticationSuccessHandler {
+        return CustomAuthenticationSuccessHandler()
+    }
 
+    @Bean
+    fun authenticationProvider(): DaoAuthenticationProvider {
+        val authProvider = DaoAuthenticationProvider()
+        authProvider.setUserDetailsService(userDetailsService())
+        authProvider.setPasswordEncoder(passwordEncoder())
+        return authProvider
+    }
 }

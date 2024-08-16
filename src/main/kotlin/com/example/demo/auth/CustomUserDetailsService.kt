@@ -1,4 +1,4 @@
-package com.example.demo
+package com.example.demo.auth
 
 import com.example.demo.playlist_manager.UserRepository
 import org.springframework.beans.factory.annotation.Autowired
