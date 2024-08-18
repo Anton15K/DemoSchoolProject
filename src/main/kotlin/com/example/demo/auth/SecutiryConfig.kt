@@ -56,23 +56,4 @@ class SecutiryConfig(
             .httpBasic {}
         return http.build()
     }
-
-    @Bean
-    fun passwordEncoder(): PasswordEncoder {
-        return BCryptPasswordEncoder()
-    }
-
-    @Bean
-    fun userDetailsService(): UserDetailsService {
-        return CustomUserDetailsService()
-    }
-    
-
-    @Bean
-    fun authenticationProvider(): DaoAuthenticationProvider {
-        val authProvider = DaoAuthenticationProvider()
-        authProvider.setUserDetailsService(userDetailsService())
-        authProvider.setPasswordEncoder(passwordEncoder())
-        return authProvider
-    }
 }

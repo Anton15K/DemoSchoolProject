@@ -41,6 +41,12 @@ class User : Serializable {
     @Column(nullable = true, name = "youtubeAccToken", length = 511)
     lateinit var youtubeAccToken: String
 
+    @JsonIgnore
+    var youtubeAuthorized : Boolean = false
+
+    @JsonIgnore
+    var spotifyAuthorized : Boolean = false
+
     @ManyToMany()
     @JsonIgnore
     @JoinTable(
