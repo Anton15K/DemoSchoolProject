@@ -18,7 +18,7 @@ interface UserRepository : JpaRepository<User, Long> {
     @Transactional
     @Modifying
     @Query(
-        """update User u set u.spotifyToken = :spotifyAccessToken, u.spotifyRefToken = :spotifyRefreshToken
+        """update User u set u.spotifyAccToken = :spotifyAccessToken, u.spotifyRefToken = :spotifyRefreshToken
     where u.id = :id"""
     )
     fun updateSpotifyAccessTokenAndSpotifyRefreshTokenById(

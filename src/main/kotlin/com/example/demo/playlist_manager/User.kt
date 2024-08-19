@@ -31,15 +31,15 @@ class User : Serializable {
 
     @JsonIgnore
     @Column(nullable = true, name = "spotifyAccToken", length = 511)
-    lateinit var spotifyToken: String
+    var spotifyAccToken: String = ""
 
     @JsonIgnore
     @Column(nullable = true, name = "spotifyRefToken", length = 511)
-    lateinit var spotifyRefToken: String
+    var spotifyRefToken: String = ""
 
     @JsonIgnore
     @Column(nullable = true, name = "youtubeAccToken", length = 511)
-    lateinit var youtubeAccToken: String
+    var youtubeAccToken: String = ""
 
     @JsonIgnore
     var youtubeAuthorized : Boolean = false

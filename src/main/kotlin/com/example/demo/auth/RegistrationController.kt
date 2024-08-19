@@ -1,5 +1,6 @@
 package com.example.demo.auth
 
+import com.example.demo.playlist_manager.User
 import com.example.demo.playlist_manager.UserService
 import com.example.demo.playlist_manager.UserSigningDto
 import jakarta.servlet.http.Cookie
@@ -24,18 +25,18 @@ class RegistrationController(
     }
 
     @PostMapping("/signup")
-    fun registerUserAccount(@ModelAttribute("user") userDto: UserSigningDto, model: Model, response : HttpServletResponse): String {
+    fun registerUserAccount(@ModelAttribute("user") user: User, model: Model, response : HttpServletResponse): String {
         try {
-            val user = userService.save(userDto)
+            val createdUser = userService.save(user)
 
-//            val welcomeCookie = Cookie("id", user.id.toString())
-//            welcomeCookie.maxAge = 7 * 24 * 60 * 60 // 1 week
-//            welcomeCookie.isHttpOnly = true
-//            welcomeCookie.path = "/"
-//
-//
-//            // Add the cookie to the response
-//            response.addCookie(welcomeCookie)
+            val welcomeCookie = Cookie("id", createdUser.id.toString())
+            welcomeCookie.maxAge = 7 * 24 * 60 * 60 // 1 week
+            welcomeCookie.isHttpOnly = true
+            welcomeCookie.path = "/"
+
+
+            // Add the cookie to the response
+            response.addCookie(welcomeCookie)
 
             return "redirect:/home?success"
         } catch (e: Exception) {

@@ -52,7 +52,7 @@ class UserController(
         val user = userService.findById(id)
         if (user != null) {
             val updatedUser =
-                userService.updateSpotifyInfo(id, userIn.spotifyToken, userIn.spotifyRefToken)
+                userService.updateSpotifyInfo(id, userIn.spotifyAccToken, userIn.spotifyRefToken)
             return ResponseEntity(updatedUser, HttpStatus.OK)
         }
         return ResponseEntity(HttpStatus.NOT_FOUND)

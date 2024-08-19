@@ -2,31 +2,15 @@ package com.example.demo.api
 
 import com.adamratzman.spotify.models.PlaylistTrack
 import com.google.api.services.youtube.model.Video
-import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 import java.io.File
 
 open class Api {
 
-    @Serializable
-    data class SpotifyAuth(
-        val clientID: String,
-        val clientSecret: String,
-        val redirectUri: String
-    )
 
     protected var clientID: String = ""
     protected var clientSecret: String = ""
     protected var redirectUri: String = ""
-
-    suspend fun loadCredentials(file: String) {
-        val json = File("src/main/resources/client_secret${file}.json").readText()
-        val secrets = Json.decodeFromString<SpotifyAuth>(json)
-        clientID = secrets.clientID
-        clientSecret = secrets.clientSecret
-        redirectUri = secrets.redirectUri
-
-    }
 
     open suspend fun loadScopes() {
     }

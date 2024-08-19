@@ -13,11 +13,7 @@ class UserService(
 
     fun findById(id: Long): User? = userRepository.findById(id).orElse(null)
 
-    fun save(userDto: UserSigningDto): User {
-        val user : User = User()
-        user.username = userDto.username!!
-        user.password = userDto.password!!
-
+    fun save(user: User): User {
         if (userRepository.findByUsername(user.username).isPresent) {
             throw UsernameNotFoundException("Username is already taken")
         }

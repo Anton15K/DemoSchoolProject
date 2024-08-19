@@ -20,7 +20,7 @@ import java.io.File
 
 
 
-class NewYoutubeApi : Api() {
+class YoutubeApi : Api() {
     var api: YouTube? = null
     private var scopes = listOf<String>()
     override suspend fun loadScopes() {
