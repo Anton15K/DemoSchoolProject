@@ -39,12 +39,13 @@ class LoginController (
     @GetMapping("/login/oauth2/code/google")
     fun handleGoogleCallback(@RequestParam("code") code: String, @RequestParam("scope") scope: String, request: HttpServletRequest): String {
         // Log the received code and scope
-        println("Authorization Code: $code")
+        val token = youtubeApiAuthService.getAccessToken(code)
+        println("Authorization Code: $token")
         println("Scope: $scope")
         val cookie = request.cookies.find { it.name == "id" }!!
         val user = userService.findById(cookie.value.toLong())!!
         if (user.youtubeAccToken.isNullOrBlank()) {
-            user.youtubeAccToken = code
+            user.youtubeAccToken = token
             println("Token ${user.youtubeAccToken}")
             userRepository.save(user)
         }

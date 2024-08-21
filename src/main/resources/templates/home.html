@@ -23,7 +23,16 @@
             Spotify Acc
             <span th:text="${user.spotifyAccToken}"></span>
         </p>
-
     </div>
+
+    <div>
+        <a href="authenticateYoutube">Auth your youtube </a>
+    </div>
+
+    <form method="post" action="/home/easySearch">
+        <div>
+            <button type="submit">Make easy Search</button>
+        </div>
+    </form>
 </body>
 </html>
