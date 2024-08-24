@@ -20,22 +20,11 @@ class UserController(
     fun getUser(@PathVariable("id") id: Long, response: HttpServletResponse): ResponseEntity<User> {
         val user = userService.findById(id)
         if (user != null) {
-            val cookie = Cookie("id", id.toString())
-            cookie.path = "/"
-            response.addCookie(cookie)
             return ResponseEntity(user, HttpStatus.OK)
         }
         return ResponseEntity(HttpStatus.NOT_FOUND)
     }
 
-//    @PostMapping
-//    fun createUser(@RequestBody user: User, response: HttpServletResponse): ResponseEntity<User> {
-//        val createdUser = userService.save(user)
-//        val cookie = Cookie("id", createdUser.id.toString())
-//        cookie.path = "/"
-//        response.addCookie(cookie)
-//        return ResponseEntity(createdUser, HttpStatus.CREATED)
-//    }
 
     @PutMapping("/{id}")
     fun updateUserName(@PathVariable("id") id: Long, @RequestBody userIn: User): ResponseEntity<User> {

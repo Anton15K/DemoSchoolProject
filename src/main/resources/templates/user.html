@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>User Details</title>
+</head>
+<body>
+<h1>User Details</h1>
+
+<!-- Display user details -->
+<!--/*@thymesVar id="user" type="com.example.demo.playlist_manager.User"*/-->
+<div th:if="${user != null}">
+  <p><strong>ID:</strong> <span th:text="${user.id}"></span></p>
+  <p><strong>Name:</strong> <span th:text="${user.username}"></span></p>
+  <!-- Add more fields as necessary -->
+</div>
+
+<!-- Display an error if the user is not found -->
+<div th:if="${notFound}">
+  <p style="color: red;">User not found!</p>
+</div>
+</body>
+</html>

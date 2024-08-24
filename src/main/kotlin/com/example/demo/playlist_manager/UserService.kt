@@ -13,6 +13,8 @@ class UserService(
 
     fun findById(id: Long): User? = userRepository.findById(id).orElse(null)
 
+    fun findByUsername(username: String): User? = userRepository.findByUsername(username).orElse(null)
+
     fun save(user: User): User {
         if (userRepository.findByUsername(user.username).isPresent) {
             throw UsernameNotFoundException("Username is already taken")

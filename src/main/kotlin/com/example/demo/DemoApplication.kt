@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement
 @EnableTransactionManagement
 @EnableJpaRepositories
 @EnableJpaAuditing
+
 class DemoApplication
 
 fun main(args: Array<String>) {

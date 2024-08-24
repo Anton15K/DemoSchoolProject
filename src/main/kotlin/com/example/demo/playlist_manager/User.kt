@@ -65,7 +65,7 @@ class User : Serializable {
     )
     var comments: MutableSet<Comm> = mutableSetOf()
 
-    fun getAuthorities(): Collection<GrantedAuthority?> {
+    fun getAuthorities(): MutableCollection<GrantedAuthority> {
         return roles.stream()
             .map { role: Role -> SimpleGrantedAuthority(role.name) }
             .collect(Collectors.toList())
